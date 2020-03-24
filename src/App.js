@@ -1,24 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'antd/dist/antd.dark.css'
+import './styles/app.css';
+
+
+import { Layout } from 'antd';
+import Posts from './components/Posts';
+const { Header, Footer, Sider, Content, Tag } = Layout;
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Layout>
+        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+          <h3>Simple Reddit Client, top 50</h3></Header>
+        <Content className="site-layout" style={{ marginTop: 64 }}>
+          <Layout>
+            <Sider
+              width="40%"
+              className="sidebar-section"
+              breakpoint="lg"
+              collapsedWidth="0">
+              <Posts/>
+            </Sider>
+            <Layout>
+              <Header theme="light">Post Title</Header>
+              <Content>Post Content</Content>
+            </Layout>
+        </Layout>
+      </Content>
+    <Footer>Built by Matias Rios, view code on <a target="_blank" href="https://github.com/mrios/simple-reddit-client">github</a></Footer>
+</Layout>
     </div>
   );
 }
