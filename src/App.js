@@ -4,7 +4,8 @@ import './styles/app.css';
 
 
 import { Layout } from 'antd';
-import Posts from './components/Posts';
+import Posts from './components/posts/Posts';
+import PostItem from './components/posts/PostItem';
 const { Header, Footer, Sider, Content, Tag } = Layout;
 
 
@@ -17,7 +18,7 @@ function App() {
         <Content className="site-layout" style={{ marginTop: 64 }}>
           <Layout>
             <Sider
-              width="40%"
+              width="45%"
               className="sidebar-section"
               breakpoint="lg"
               collapsedWidth="0">
@@ -25,7 +26,9 @@ function App() {
             </Sider>
             <Layout>
               <Header theme="light">Post Title</Header>
-              <Content>Post Content</Content>
+              <Content>
+                <PostItem/>
+              </Content>
             </Layout>
         </Layout>
       </Content>

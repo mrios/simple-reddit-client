@@ -1,27 +1,24 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { List, Avatar, Button, Tag } from 'antd';
 import { CloseCircleTwoTone } from '@ant-design/icons';
 
-const listData = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'n minutes ago',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources...',
-  });
-}
+import PropTypes from 'prop-types'
 
-const DismissButton = ({ text, active }) => (
+import { connect } from 'react-redux'
+import {
+  selectPost,
+  fetchPostsIfNeeded,
+  dismissPost
+} from '../../actions'
+
+
+const DismissButton = () => (
   <span>
     <Button
       type="link"
       danger
       icon={<CloseCircleTwoTone twoToneColor="#eb2f96"/>}
-      style={{ marginRight: 8, color: active ? '#1890ff' : '' }}
+      style={{ marginRight: 8 }}
     >
     <span style={{color: 'grey'}}>Dismiss Post</span>
     </Button>
@@ -38,14 +35,23 @@ const PostTitle = ({ item }) => (
   <span>
     <Tag color="#f50">new!</Tag>
     <Button type="link" href={item.href}>{item.title}</Button>
-    <span class="post-title-minutes">{item.description}</span>
+    <span className="post-title-minutes">{item.description}</span>
   </span>
 )
 
-class Posts extends Component {
-  state = {};
+class Posts extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(fetchPostsIfNeeded())
+  }
 
   render() {
+    const listData = this.props.posts
     return (
         <List
             itemLayout="vertical"
@@ -78,4 +84,17 @@ class Posts extends Component {
   }
 }
 
-export default Posts
+function mapStateToProps(state) {
+  const { isFetching, lastUpdated, items: posts } = state.posts || {
+    isFetching: true,
+    items: []
+  }
+
+  return {
+    posts,
+    isFetching,
+    lastUpdated
+  }
+}
+
+export default connect(mapStateToProps)(Posts)
