@@ -25,23 +25,21 @@ const DismissButton = () => (
   </span>
 );
 
-const CommentsCounter = ({ count }) => (
-  <span>
-    {count} Comments
-  </span>
-);
-
 const PostTitle = ( {item} ) => (
-  <span>
-    {item.unread === false ? '' : <Tag color="#f50">new!</Tag>}
-      <UserOutlined />
-      <Text code>{item.author}</Text>
-      <FieldTimeOutlined />
-      <span className="post-title-minutes">
+  <Row>
+    {item.unread === false ? '' : <Col xs={24} lg={3}><Tag color="#f50">new!</Tag></Col>}
+    <Col xs={24} lg={10}>
+        <UserOutlined />
+        <Text code>{item.author}</Text>
+    </Col>
+    <Col xs={24} lg={8}>
+        <FieldTimeOutlined />
         <Text code><Moment fromNow unix>{item.created_utc}</Moment></Text>
-      </span>
+    </Col>
+    <Col xs={24}>
       <Title level={4}>{item.title}</Title>
-  </span>
+    </Col>
+  </Row>
 )
 
 class Posts extends React.Component {
