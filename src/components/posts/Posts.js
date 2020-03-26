@@ -1,16 +1,16 @@
 import React from 'react';
-import { List, Avatar, Button, Tag } from 'antd';
-import { CloseCircleTwoTone } from '@ant-design/icons';
-
+import { List, Avatar, Button, Tag, Spin, Typography } from 'antd';
+import { CloseCircleTwoTone, UserOutlined, FieldTimeOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types'
-
 import { connect } from 'react-redux'
+import Moment from 'react-moment';
 import {
   selectPost,
   fetchPostsIfNeeded,
   dismissPost
-} from '../../actions'
+} from './PostActions'
 
+const { Text, Title } = Typography;
 
 const DismissButton = () => (
   <span>
@@ -31,11 +31,16 @@ const CommentsCounter = ({ count }) => (
   </span>
 );
 
-const PostTitle = ({ item }) => (
+const PostTitle = ( {item} ) => (
   <span>
-    <Tag color="#f50">new!</Tag>
-    <Button type="link" href={item.href}>{item.title}</Button>
-    <span className="post-title-minutes">{item.description}</span>
+    {item.unread === false ? '' : <Tag color="#f50">new!</Tag>}
+      <UserOutlined />
+      <Text code>{item.author}</Text>
+      <FieldTimeOutlined />
+      <span className="post-title-minutes">
+        <Text code><Moment fromNow unix>{item.created_utc}</Moment></Text>
+      </span>
+      <Title level={4}>{item.title}</Title>
   </span>
 )
 
@@ -43,16 +48,29 @@ class Posts extends React.Component {
 
   constructor(props) {
     super(props)
+    this.handleSelectPost = this.handleSelectPost.bind(this)
+    this.handleDismissPost = this.handleDismissPost.bind(this)
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(fetchPostsIfNeeded())
+    this.props.dispatch(fetchPostsIfNeeded())
+  }
+
+  handleSelectPost(postId) {
+    this.props.dispatch(selectPost(postId))
+  }
+
+  handleDismissPost(postId) {
+    this.props.dispatch(dismissPost(postId))
   }
 
   render() {
-    const listData = this.props.posts
+    const listData = this.props.items
     return (
+      this.props.isFetching ? 
+      <div className="loading-container">
+        <Spin size="large" />
+      </div> : (
         <List
             itemLayout="vertical"
             size="small"
@@ -61,6 +79,7 @@ class Posts extends React.Component {
                 console.log(page);
             },
             pageSize: 10,
+            position: 'both'
             }}
             dataSource={listData}
             renderItem={item => (
@@ -68,33 +87,45 @@ class Posts extends React.Component {
                 style={{ padding: '20px 10px' }}
                 key={item.title}
                 actions={[
-                <DismissButton text="Dismiss Post" />,
-                <CommentsCounter count="1500"  />,
+                  <span onClick={ () => this.handleDismissPost(item.id) }>
+                    <DismissButton item={item} />
+                  </span>,
+                <CommentsCounter count={item.num_comments}  />,
+                <span onClick={ () => this.handleSelectPost(item.id) }>>></span>
                 ]}
             >
                 <List.Item.Meta
-                title={ <PostTitle item={item} />}
-                avatar={<Avatar src={item.avatar} />}
+                title={ 
+                <span onClick={ () => this.handleSelectPost(item.id) }>
+                  <PostTitle item={item}  />
+                </span>}
+                avatar={<Avatar shape="square" size={64} src={item.thumbnail} />}
                 />
                 {item.content}
             </List.Item>
             )}
         />
+      )
     )
   }
 }
 
 function mapStateToProps(state) {
-  const { isFetching, lastUpdated, items: posts } = state.posts || {
+  const { isFetching, lastUpdated, items } = state || {
     isFetching: true,
     items: []
   }
 
   return {
-    posts,
+    items,
     isFetching,
     lastUpdated
   }
+}
+
+Posts.propTypes = {
+  lastUpdated: PropTypes.number,
+  dispatch: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps)(Posts)
