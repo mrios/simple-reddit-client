@@ -1,6 +1,7 @@
 import {
   SELECT_POST,
   DISMISS_POST,
+  DISMISS_ALL,
   REQUEST_POSTS,
   RECEIVE_POSTS
 } from './PostActions'
@@ -36,6 +37,14 @@ export default function(
         lastUpdated: action.receivedAt,
         selectedId: null
       };
+      case DISMISS_ALL:
+        return {
+          ...state,
+          isFetching: false,
+          items: [],
+          lastUpdated: action.receivedAt,
+          selectedId: null
+        };
     case REQUEST_POSTS:
       return Object.assign({}, state, {
         isFetching: true,

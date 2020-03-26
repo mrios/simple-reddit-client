@@ -4,6 +4,7 @@ export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const SELECT_POST = 'SELECT_POST'
 export const DISMISS_POST = 'DISMISS_POST'
+export const DISMISS_ALL = 'DISMISS_ALL'
 
 export function selectPost(postId) {
   return {
@@ -16,6 +17,12 @@ export function dismissPost(postId) {
   return {
     type: DISMISS_POST,
     postId
+  }
+}
+
+export function dismissAll() {
+  return {
+    type: DISMISS_ALL
   }
 }
 
