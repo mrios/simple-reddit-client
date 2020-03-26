@@ -1,1 +1,39 @@
 
+.ant-layout-header {
+  background: rgba(16, 142, 233, 1);
+  color: #fff;
+}
+
+.loading-container {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin-bottom: 20px;
+  padding: 30px 50px;
+  margin: 20px 0;
+}
+
+.site-card-border-less-wrapper {
+  background: #ececec;
+  padding: 30px;
+}
+
+.ant-back-top {
+  bottom: 100px;
+}
+.ant-back-top-inner {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #1088e9;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+}
+
+.ant-list-pagination {
+  margin-top: 24px;
+  text-align: right;
+  padding: 20px;
+}
