@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.0.4",
     "cross-fetch": "^3.0.4",
+    "rc-queue-anim": "^1.8.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-moment": "^0.9.7",

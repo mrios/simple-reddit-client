@@ -1,5 +1,5 @@
 
-.ant-layout-header {
+.ant-layout-header.main-header {
   background: rgba(16, 142, 233, 1);
   color: #fff;
 }
@@ -36,4 +36,89 @@
   margin-top: 24px;
   text-align: right;
   padding: 20px;
+}
+
+h4.ant-typography {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.ant-layout-sider-zero-width-trigger {
+  display: none;
+}
+
+.ant-list-item-meta-title .ant-tag {
+  margin-bottom: 10px;
+}
+
+.ant-list-split .ant-list-item:last-child {
+  border-bottom: 1px solid #111 !important;
+}
+
+.post-details {
+  background: #111;
+}
+
+.post-details .ant-layout {
+  width: 50%;
+  background: inherit;
+}
+
+/* css styles for responsive design */
+
+@media (max-width: 768px) {
+  h4.ant-typography {
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .ant-list-vertical .ant-list-items {
+    min-width: 100%;
+  }
+
+  .ant-list-vertical .ant-list-items ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .ant-list-item-meta {
+    display: block
+  }
+
+  .ant-list-item-meta .ant-list-item-meta-avatar .ant-avatar{
+    width: 100% !important;
+    height: 100% !important;
+    margin: 10px auto;
+  }
+
+  .ant-list-item-meta img {
+    position: relative;
+    margin: 10px auto;
+    width: 100%;
+  }
+
+  .ant-typography {
+    word-break: break-all;
+  }
+
+  .ant-typography code {
+    font-size: 70%;
+  }
+
+  .ant-list-item > img {
+    position: relative;
+    margin: 10px auto;
+    width: 100%;
+  }
+
+  .ant-list-pagination {
+    padding: 0;
+  }
+
+  .ant-pagination {
+    display: flex;
+    justify-content: center;
+    zoom: 65%;
+  }
+
 }

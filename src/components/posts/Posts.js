@@ -1,16 +1,18 @@
 import React from 'react';
-import { List, Avatar, Button, Tag, Spin, Typography } from 'antd';
+import { List, Avatar, Button, Tag, Spin, Typography, Layout, Row, Col } from 'antd';
 import { CloseCircleTwoTone, UserOutlined, FieldTimeOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Moment from 'react-moment';
+import QueueAnim from 'rc-queue-anim';
 import {
   selectPost,
   fetchPostsIfNeeded,
-  dismissPost
+  dismissPost,
 } from './PostActions'
 
 const { Text, Title } = Typography;
+const { Content } = Layout;
 
 const DismissButton = () => (
   <span>
@@ -69,40 +71,51 @@ class Posts extends React.Component {
       <div className="loading-container">
         <Spin size="large" />
       </div> : (
-        <List
-            itemLayout="vertical"
-            size="small"
-            pagination={{
-            onChange: page => {
-                console.log(page);
-            },
-            pageSize: 10,
-            position: 'both'
-            }}
-            dataSource={listData}
-            renderItem={item => (
-            <List.Item
-                style={{ padding: '20px 10px' }}
-                key={item.title}
-                actions={[
-                  <span onClick={ () => this.handleDismissPost(item.id) }>
-                    <DismissButton item={item} />
-                  </span>,
-                <CommentsCounter count={item.num_comments}  />,
-                <span onClick={ () => this.handleSelectPost(item.id) }>>></span>
-                ]}
-            >
-                <List.Item.Meta
-                title={ 
-                <span onClick={ () => this.handleSelectPost(item.id) }>
-                  <PostTitle item={item}  />
-                </span>}
-                avatar={<Avatar shape="square" size={64} src={item.thumbnail} />}
-                />
-                {item.content}
-            </List.Item>
-            )}
-        />
+      <div>
+        <Layout>
+          <Content>
+              <List
+                itemLayout="vertical"
+                size="small"
+                pagination={{
+                pageSize: 10,
+                position: 'both'
+                }}
+                dataSource={listData}
+                renderItem={item => (
+                  <QueueAnim component="span" type={['right', 'left']} leaveReverse>
+                    <List.Item
+                    style={{ padding: '20px 10px' }}
+                    key={item.title}
+                    actions={[
+                      <span onClick={ () => this.handleDismissPost(item.id) }>
+                        <DismissButton item={item} />
+                      </span>,
+                      <span onClick={ () => this.handleSelectPost(item.id) }>
+                        {item.num_comments} Comments
+                      </span>,
+                      <span onClick={ () => this.handleSelectPost(item.id) }>>></span>
+                    ]}
+                    >
+                      <List.Item.Meta
+                      title={
+                        <span className="mobile-container" onClick={ () => this.handleSelectPost(item.id) }>
+                          <PostTitle item={item}  />
+                        </span>
+                      }
+                      avatar={
+                        <span className="mobile-container" onClick={ () => this.handleSelectPost(item.id) }>
+                          <Avatar shape="square" size={64} src={item.thumbnail} />
+                        </span>
+                      } />
+                      {item.content}
+                    </List.Item>
+                  </QueueAnim>
+                )}
+              />
+          </Content>
+        </Layout>
+        </div>
       )
     )
   }
