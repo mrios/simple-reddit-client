@@ -1,10 +1,11 @@
 import {
+  FETCH_POSTS,
   SELECT_POST,
   DISMISS_POST,
   DISMISS_ALL,
   REQUEST_POSTS,
   RECEIVE_POSTS
-} from './PostActions'
+} from "./../actions/PostActions";
 
 export default function(
   state = {
@@ -16,20 +17,32 @@ export default function(
   action
 ) {
   switch (action.type) {
+    case FETCH_POSTS:
+      const data = action.payload;
+
+      const newObject = {
+        items: [...state.items, ...data.items]
+      };
+
+      return {
+        ...state,
+        ...newObject
+      };
     case SELECT_POST:
       const updatedPosts = state.items.map(obj => {
-          return obj.id === action.postId ? { ...obj, unread: false } : obj
-        }
-      );
+        return obj.id === action.payload ? { ...obj, unread: false } : obj;
+      });
       return {
         ...state,
         isFetching: false,
         items: updatedPosts,
         lastUpdated: action.receivedAt,
-        selectedId: action.postId
+        selectedId: action.payload
       };
     case DISMISS_POST:
-      const filteredPosts = state.items.filter(obj => obj.id !== action.postId)
+      const filteredPosts = state.items.filter(
+        obj => obj.id !== action.payload
+      );
       return {
         ...state,
         isFetching: false,
@@ -37,27 +50,26 @@ export default function(
         lastUpdated: action.receivedAt,
         selectedId: null
       };
-      case DISMISS_ALL:
-        return {
-          ...state,
-          isFetching: false,
-          items: [],
-          lastUpdated: action.receivedAt,
-          selectedId: null
-        };
+    case DISMISS_ALL:
+      return Object.assign({}, state, {
+        isFetching: false,
+        items: action.payload,
+        lastUpdated: action.receivedAt,
+        selectedId: null
+      });
     case REQUEST_POSTS:
       return Object.assign({}, state, {
         isFetching: true,
         didDismiss: false
-      })
+      });
     case RECEIVE_POSTS:
       return Object.assign({}, state, {
         isFetching: false,
         didDismiss: false,
         items: action.items,
         lastUpdated: action.receivedAt
-      })
+      });
     default:
-      return state
+      return state;
   }
 }
