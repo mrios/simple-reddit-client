@@ -15,7 +15,6 @@
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
-    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
@@ -42,7 +41,8 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^2.2.0"
+    "gh-pages": "^2.2.0",
+    "use-reducer-logger": "^1.0.1"
   },
   "homepage": "http://mrios.github.io/single-reddit-client"
 }
